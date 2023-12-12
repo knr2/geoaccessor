@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="geoaccessor"
+        name="geoaccessor"
+        type="geoaccessor"
+        output="screen" >
+    <rosparam>
+        area_size: 2.0
+        search_time: 10
+        audio_path: "/home/menuettm_"
+        goal_path: "/root/pcd/test/"
+        goal_point_number: 1
+        cheak_size: 0.25
+    </rosparam>
+  </node>
+</launch>

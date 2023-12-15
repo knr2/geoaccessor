@@ -15,7 +15,6 @@
 #include <pcl/point_types.h>
 #include <pcl/filters/approximate_voxel_grid.h>
 // opencv
-#include <boost/bind.hpp>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <tf/transform_broadcaster.h>
@@ -31,6 +30,8 @@ int count = 0;
 bool call_flag = true;
 double distance = 0.;
 std::string score;
+
+double first = 0;
 
 void launchExternalApplication() {
     // 外部アプリケーションを起動するためのコマンドを定義
@@ -53,8 +54,10 @@ void launchExternalApplication() {
 void callback(const sensor_msgs::PointCloud::ConstPtr& point)
 {
   count++;
-  ROS_INFO("[%d]:Get Date Now!!", count);
-  if(count >= search_time * 10 && call_flag)
+  if(count == 1)
+    first = point->header.seq;
+  ROS_INFO("[%d]:Get Date Now!!", point->header.seq);
+  if(point->header.seq - first >= search_time * 10&& call_flag)
   {
     pcl::PointCloud<pcl::PointXYZ>::Ptr load_clouds(new pcl::PointCloud<pcl::PointXYZ>), cheak_area(new pcl::PointCloud<pcl::PointXYZ>);
     sensor_msgs::PointCloud2 point2;
@@ -62,7 +65,7 @@ void callback(const sensor_msgs::PointCloud::ConstPtr& point)
     pcl::fromROSMsg(point2, *load_clouds);
     for(const auto& point:*load_clouds)
     {
-      if(sqrt(pow(point.x, 2) + pow(point.y, 2)) - 0.25 <= cheak_size)
+      if(sqrt(pow(point.x, 2) + pow(point.y, 2)) <= cheak_size)
       {
         pcl::PointXYZ pt;
         pt.x = point.x;

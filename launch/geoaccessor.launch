@@ -5,10 +5,10 @@
         type="geoaccessor"
         output="screen" >
     <rosparam>
-        area_size: 2.0
-        search_time: 10
-        audio_path: "/home/menuettm_"
-        goal_path: "/root/pcd/test/"
+        area_size: 2.5
+        search_time: 30
+        audio_path: "/home/fujiilab/catkin_ws/src/geoaccessor/voice/"
+        goal_path: "//home/fujiilab/catkin_ws/src/geoaccessor/pcd/"
         goal_point_number: 1
         cheak_size: 0.25
     </rosparam>
